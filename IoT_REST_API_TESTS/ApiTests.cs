@@ -2,24 +2,24 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class Tests
+    public class ApiTests
     {
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void ApiTestGetRequest()
         {
+            Assert.Pass();
+        }
 
+        [Test]
+        public void ApiReceiveOneSingleObject()
+        {
+            Assert.Pass();
         }
 
         [Test]
         public void ApiTestPostRequest()
         {
 
-        }
-
-        [Test]
-        public void ApiTestGetRequest()
-        {
-            Assert.Pass();
         }
 
         [Test]

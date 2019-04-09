@@ -20,10 +20,11 @@ namespace IoT_REST_API.Controllers
 
         // GET: api/Temperature
         [HttpGet]
-        public ActionResult<IEnumerable<TemperatureSensor>> Get()
+        public async Task<ActionResult<IEnumerable<TemperatureSensor>>> GetTemperatureSensor()
         {
-            return _context.TemperatureSensor.();
-
+            return await _context.TemperatureSensor
+                .Include("TemperatureSensor.Measurement")
+                .ToListAsync();
         }
 
         // GET: api/Temperature/5
