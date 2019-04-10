@@ -1,5 +1,6 @@
 ﻿using IoT_REST_API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace IoT_REST_API
 {
@@ -7,7 +8,7 @@ namespace IoT_REST_API
     {
         public TemperatureContext(DbContextOptions<TemperatureContext> options) : base(options)
         {
-            
+
         }
         public DbSet<TemperatureSensor> TemperatureSensor { get; set; }
         public DbSet<Measurement> Measurement { get; set; }

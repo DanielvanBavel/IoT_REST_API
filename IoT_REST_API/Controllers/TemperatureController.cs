@@ -22,9 +22,7 @@ namespace IoT_REST_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TemperatureSensor>>> GetTemperatureSensor()
         {
-            return await _context.TemperatureSensor
-                .Include("TemperatureSensor.Measurement")
-                .ToListAsync();
+            return await _context.TemperatureSensor.OrderByDescending(x => x.TemperatureSensorId).ToListAsync();
         }
 
         // GET: api/Temperature/5
@@ -39,6 +37,34 @@ namespace IoT_REST_API.Controllers
             }
 
             return temperatureSensor;
+        }
+
+        // POST: api/Temperature
+        [HttpPost]
+        public async Task<ActionResult<TemperatureSensor>> PostTemperatureSensor(TemperatureSensor temperatureSensor)
+        {
+            _context.TemperatureSensor.Add(temperatureSensor);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
+        }
+
+        // POST: api/Temperature/5/measurement
+        [HttpPost("{id}/measurement")]
+        public async Task<IActionResult> PostMeasurement(int id, Measurement measurement)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            measurement.TemperatureSensorId = id;
+
+            await _context.AddAsync(measurement);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(measurement);
         }
 
         // PUT: api/Temperature/5
@@ -69,16 +95,6 @@ namespace IoT_REST_API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Temperature
-        [HttpPost]
-        public async Task<ActionResult<TemperatureSensor>> PostTemperatureSensor(TemperatureSensor temperatureSensor)
-        {
-            _context.TemperatureSensor.Add(temperatureSensor);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
         }
 
         // DELETE: api/Temperature/5

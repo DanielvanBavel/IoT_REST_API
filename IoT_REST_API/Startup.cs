@@ -20,9 +20,14 @@ namespace IoT_REST_API
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("LocalDatabase");
-            services.AddDbContext<TemperatureContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<TemperatureContext>(
+                b => b.UseLazyLoadingProxies()
+                .UseSqlServer(connection));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
