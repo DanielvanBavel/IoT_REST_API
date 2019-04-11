@@ -9,11 +9,11 @@ namespace IoT_REST_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TemperatureController : ControllerBase
+    public class TemperatureSensorController : ControllerBase
     {
         private readonly TemperatureContext _context;
 
-        public TemperatureController(TemperatureContext context)
+        public TemperatureSensorController(TemperatureContext context)
         {
             _context = context;
         }
