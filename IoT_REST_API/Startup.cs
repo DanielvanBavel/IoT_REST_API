@@ -19,7 +19,7 @@ namespace IoT_REST_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("LocalDatabase");
+            var connection = Configuration.GetConnectionString("db_connection");
             services.AddDbContext<TemperatureContext>(
                 b => b.UseLazyLoadingProxies()
                 .UseSqlServer(connection));
