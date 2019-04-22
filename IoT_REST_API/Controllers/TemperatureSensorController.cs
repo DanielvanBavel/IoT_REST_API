@@ -49,7 +49,8 @@ namespace IoT_REST_API.Controllers
 
             await _dataRepository.AddTemperatureSensorAsync(temperatureSensor);
 
-            return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
+            return Ok(temperatureSensor);
+            //return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
         }
 
 
