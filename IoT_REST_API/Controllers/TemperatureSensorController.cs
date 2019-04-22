@@ -1,57 +1,61 @@
 ﻿using IoT_REST_API.Models;
+using IoT_REST_API.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IoT_REST_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class TemperatureSensorController : ControllerBase
     {
-        private readonly TemperatureContext _context;
+        private readonly IDataRepository<TemperatureSensor> _dataRepository;
 
-        public TemperatureSensorController(TemperatureContext context)
+        public TemperatureSensorController(IDataRepository<TemperatureSensor> dataRepository)
         {
-            _context = context;
+            _dataRepository = dataRepository;
         }
 
-        // GET: api/Temperature
+        // GET: api/Temperaturesensor
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TemperatureSensor>>> GetTemperatureSensor()
+        public async Task<IEnumerable<TemperatureSensor>> GetTemperatureSensors()
         {
-            return await _context.TemperatureSensor.OrderByDescending(x => x.TemperatureSensorId).ToListAsync();
+            return await _dataRepository.FindAllAsync();
         }
 
-        // GET: api/Temperature/5
+        // GET: api/Temperaturesensor/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TemperatureSensor>> GetTemperatureSensor(int id)
+        public async Task<IActionResult> Get(long id)
         {
-            var temperatureSensor = await _context.TemperatureSensor.FindAsync(id);
+            TemperatureSensor employee = await _dataRepository.GetAsync(id);
 
-            if (temperatureSensor == null)
+            if (employee == null)
             {
-                return NotFound();
+                return NotFound("The Employee record couldn't be found.");
             }
 
-            return temperatureSensor;
+            return Ok(employee);
         }
 
-        // POST: api/Temperature
+        // POST: api/Temperaturesensor
         [HttpPost]
-        public async Task<ActionResult<TemperatureSensor>> PostTemperatureSensor(TemperatureSensor temperatureSensor)
+        public async Task<ActionResult<TemperatureSensor>> Post([FromBody] TemperatureSensor temperatureSensor)
         {
-            _context.TemperatureSensor.Add(temperatureSensor);
-            await _context.SaveChangesAsync();
+            if (temperatureSensor == null)
+            {
+                return BadRequest("temperatureSensor is null.");
+            }
+
+            await _dataRepository.AddTemperatureSensorAsync(temperatureSensor);
 
             return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
         }
 
-        // POST: api/Temperature/5/measurement
+
+        // POST: api/Temperaturesensor/5/measurement
         [HttpPost("{id}/measurement")]
-        public async Task<IActionResult> PostMeasurement(int id, Measurement measurement)
+        public async Task<IActionResult> AddMeasurement(long id, Measurement measurement)
         {
             if (!ModelState.IsValid)
             {
@@ -60,62 +64,25 @@ namespace IoT_REST_API.Controllers
 
             measurement.TemperatureSensorId = id;
 
-            await _context.AddAsync(measurement);
-
-            await _context.SaveChangesAsync();
+            await _dataRepository.AddMeasurementAsync(measurement);
 
             return Ok(measurement);
         }
 
-        // PUT: api/Temperature/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTemperatureSensor(int id, [FromBody]TemperatureSensor temperatureSensor)
-        {
-            if (temperatureSensor.TemperatureSensorId != id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(temperatureSensor).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TemperatureSensorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // DELETE: api/Temperature/5
+        //DELETE: api/Temperaturesensor/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TemperatureSensor>> DeleteTemperatureSensor(int id)
+        public async Task<IActionResult> DeleteTemperatureSensorAsync(long id)
         {
-            var temperatureSensor = await _context.TemperatureSensor.FindAsync(id);
-            if (temperatureSensor == null)
+            TemperatureSensor tempsens = await _dataRepository.GetAsync(id);
+            if (tempsens == null)
             {
-                return NotFound();
+                return NotFound("The Employee record couldn't be found.");
             }
 
-            _context.TemperatureSensor.Remove(temperatureSensor);
-            await _context.SaveChangesAsync();
-
-            return temperatureSensor;
-        }
-
-        private bool TemperatureSensorExists(int id)
-        {
-            return _context.TemperatureSensor.Any(e => e.TemperatureSensorId == id);
+            await _dataRepository.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

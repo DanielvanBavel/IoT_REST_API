@@ -7,11 +7,11 @@ namespace IoT_REST_API.Models
     public class Measurement
     {
         [Key]
-        public int MeasurementId { get; set; }
+        public long MeasurementId { get; set; }
 
         [FromRoute]
         [Required]
-        public int TemperatureSensorId { get; set; }
+        public long TemperatureSensorId { get; set; }
 
         [Required]
         public int Temperature { get; set; }

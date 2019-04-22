@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IoT_REST_API.Migrations
 {
-    public partial class Temperature : Migration
+    public partial class TemperatureSensor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,11 +12,11 @@ namespace IoT_REST_API.Migrations
                 name: "TemperatureSensor",
                 columns: table => new
                 {
-                    TemperatureSensorId = table.Column<int>(nullable: false)
+                    TemperatureSensorId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DeviceName = table.Column<string>(nullable: false),
                     DeviceModel = table.Column<string>(nullable: false),
-                    LocationName = table.Column<string>(nullable: true),
+                    LocationName = table.Column<string>(nullable: false),
                     IsOnline = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -28,9 +28,9 @@ namespace IoT_REST_API.Migrations
                 name: "Measurement",
                 columns: table => new
                 {
-                    MeasurementId = table.Column<int>(nullable: false)
+                    MeasurementId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TemperatureSensorId = table.Column<int>(nullable: false),
+                    TemperatureSensorId = table.Column<long>(nullable: false),
                     Temperature = table.Column<int>(nullable: false),
                     MeasureDate = table.Column<DateTime>(nullable: false),
                     MeasureTime = table.Column<DateTime>(nullable: false)

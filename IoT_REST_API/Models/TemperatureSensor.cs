@@ -6,7 +6,7 @@ namespace IoT_REST_API.Models
     public class TemperatureSensor
     {
         [Key]
-        public int TemperatureSensorId { get; set; }
+        public long TemperatureSensorId { get; set; }
 
         [Required]
         public string DeviceName  { get; set; }

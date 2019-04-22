@@ -1,12 +1,11 @@
 ﻿using IoT_REST_API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace IoT_REST_API
 {
-    public class TemperatureContext : DbContext
+    public class Context : DbContext
     {
-        public TemperatureContext(DbContextOptions<TemperatureContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
 
         }

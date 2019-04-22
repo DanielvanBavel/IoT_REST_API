@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IoT_REST_API.Models;
+using IoT_REST_API.Models.DataManager;
+using IoT_REST_API.Repository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +23,11 @@ namespace IoT_REST_API
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("db_connection");
-            services.AddDbContext<TemperatureContext>(
+            services.AddDbContext<Context>(
                 b => b.UseLazyLoadingProxies()
                 .UseSqlServer(connection));
 
+            services.AddScoped<IDataRepository<TemperatureSensor>, TemperatureSensorManager>(); 
 
             services.AddMvc()
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)

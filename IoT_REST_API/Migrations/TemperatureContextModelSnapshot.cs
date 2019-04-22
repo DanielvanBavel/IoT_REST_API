@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IoT_REST_API.Migrations
 {
-    [DbContext(typeof(TemperatureContext))]
+    [DbContext(typeof(Context))]
     partial class TemperatureContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IoT_REST_API.Models.Measurement", b =>
                 {
-                    b.Property<int>("MeasurementId")
+                    b.Property<long>("MeasurementId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -31,7 +31,7 @@ namespace IoT_REST_API.Migrations
 
                     b.Property<int>("Temperature");
 
-                    b.Property<int>("TemperatureSensorId");
+                    b.Property<long>("TemperatureSensorId");
 
                     b.HasKey("MeasurementId");
 
@@ -42,7 +42,7 @@ namespace IoT_REST_API.Migrations
 
             modelBuilder.Entity("IoT_REST_API.Models.TemperatureSensor", b =>
                 {
-                    b.Property<int>("TemperatureSensorId")
+                    b.Property<long>("TemperatureSensorId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -54,7 +54,8 @@ namespace IoT_REST_API.Migrations
 
                     b.Property<bool>("IsOnline");
 
-                    b.Property<string>("LocationName");
+                    b.Property<string>("LocationName")
+                        .IsRequired();
 
                     b.HasKey("TemperatureSensorId");
 
@@ -64,7 +65,7 @@ namespace IoT_REST_API.Migrations
             modelBuilder.Entity("IoT_REST_API.Models.Measurement", b =>
                 {
                     b.HasOne("IoT_REST_API.Models.TemperatureSensor", "TemperatureSensor")
-                        .WithMany("Measurement")
+                        .WithMany("Measurements")
                         .HasForeignKey("TemperatureSensorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
