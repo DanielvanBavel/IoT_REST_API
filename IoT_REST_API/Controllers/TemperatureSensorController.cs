@@ -53,7 +53,6 @@ namespace IoT_REST_API.Controllers
             //return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
         }
 
-
         // POST: api/Temperaturesensor/5/measurement
         [HttpPost("{id}/measurement")]
         public async Task<IActionResult> AddMeasurement(long id, Measurement measurement)
@@ -69,8 +68,6 @@ namespace IoT_REST_API.Controllers
 
             return Ok(measurement);
         }
-
-
 
         //DELETE: api/Temperaturesensor/5
         [HttpDelete("{id}")]

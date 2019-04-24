@@ -1,37 +1,35 @@
 ﻿using IoT_REST_API;
+using IoT_REST_API.Models.DataManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace IoT_REST_API_Test
 {
     [TestClass]
     public class TemperatureSensorControllerTest
     {
-        TemperatureSensorControllerTest()
-        {
-
-        }
-
         [TestMethod]
-        public void TestGetSensorsWithReturn200Succes()
+        public void TestGetSensorsWithReturn200SuccesAsync()
         {
-            //Arrange
-            //string expectedTitle = "Sample2";
 
-            //Act
-            //var controller = new TemperatureSensorController(_context);
-            //TemperatureSensor result = controller.GetTemperatureSensors();
-
-            //Assert
-            //Assert.IsTrue(Ok());
         }
 
         [TestMethod]
         public void TestGetSensorByIdWithReturn200Succes()
         {
-        //    string expectedTitle = "Sample2";
-        //    var controller = new TemperatureSensorController(_context);
-        //    TemperatureSensor result = controller.GetTemperatureSensor(2);
-        //    Assert.AreEqual(expectedTitle, result.DeviceName);
+
+        }
+
+        [TestMethod]
+        public void TestDeleteSensor()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestAddMeasurementToSensor()
+        {
+
         }
     }
 }
