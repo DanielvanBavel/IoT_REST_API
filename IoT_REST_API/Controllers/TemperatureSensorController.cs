@@ -28,14 +28,14 @@ namespace IoT_REST_API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            TemperatureSensor employee = await _dataRepository.GetAsync(id);
+            TemperatureSensor tempsensor = await _dataRepository.GetAsync(id);
 
-            if (employee == null)
+            if (tempsensor == null)
             {
                 return NotFound("The Employee record couldn't be found.");
             }
 
-            return Ok(employee);
+            return Ok(tempsensor);
         }
 
         // POST: api/Temperaturesensor
@@ -50,7 +50,6 @@ namespace IoT_REST_API.Controllers
             await _dataRepository.AddTemperatureSensorAsync(temperatureSensor);
 
             return Ok(temperatureSensor);
-            //return CreatedAtAction("GetTemperatureSensor", new { id = temperatureSensor.TemperatureSensorId }, temperatureSensor);
         }
 
         // POST: api/Temperaturesensor/5/measurement
@@ -76,7 +75,7 @@ namespace IoT_REST_API.Controllers
             TemperatureSensor tempsens = await _dataRepository.GetAsync(id);
             if (tempsens == null)
             {
-                return NotFound("The Employee record couldn't be found.");
+                return NotFound("The temperaturesensor record couldn't be found.");
             }
 
             await _dataRepository.DeleteAsync(id);

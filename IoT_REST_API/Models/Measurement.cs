@@ -17,10 +17,10 @@ namespace IoT_REST_API.Models
         public int Temperature { get; set; }
 
         [Required]
-        public DateTime MeasureDate { get; set; }
+        public string MeasureDate { get; set; }
 
         [Required]
-        public DateTime MeasureTime { get; set; }
+        public string MeasureTime { get; set; }
         
         public virtual TemperatureSensor TemperatureSensor { get; set; }
     }
