@@ -62,18 +62,11 @@ namespace IoT_REST_API.Models.DataManager
             await _temperatureContext.SaveChangesAsync();
         }
 
-        public async Task UpdateTemperatureSensorAsync(long id, TemperatureSensor entity)
+        public async Task UpdateTemperatureSensorAsync(TemperatureSensor entity)
         {
-            var sensor = await _temperatureContext.TemperatureSensor.FirstOrDefaultAsync(x => x.TemperatureSensorId.Equals(id));
-
-            if (sensor.TemperatureSensorId <= 0)
+            if (entity == null)
             {
-                throw new KeyNotFoundException(nameof(sensor.TemperatureSensorId));
-            }
-
-            if(sensor != null)
-            {
-                _temperatureContext.Entry(sensor).State = EntityState.Detached;
+                throw new ArgumentNullException("entity is null");
             }
 
             _temperatureContext.TemperatureSensor.Update(entity);

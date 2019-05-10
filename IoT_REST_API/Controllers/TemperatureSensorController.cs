@@ -77,7 +77,9 @@ namespace IoT_REST_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _dataRepository.UpdateTemperatureSensorAsync(id, temperatureSensor);
+            temperatureSensor.TemperatureSensorId = id;
+
+            await _dataRepository.UpdateTemperatureSensorAsync(temperatureSensor);
 
             return NoContent();
         }
