@@ -17,14 +17,14 @@ namespace IoT_REST_API.Controllers
             _dataRepository = dataRepository;
         }
 
-        // GET: api/Temperaturesensor
+        // GET: api/v1/temperaturesensor
         [HttpGet]
         public async Task<IEnumerable<TemperatureSensor>> GetTemperatureSensors()
         {
             return await _dataRepository.FindAllAsync();
         }
 
-        // GET: api/Temperaturesensor/5
+        // GET: api/v1/temperaturesensor/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
@@ -38,7 +38,7 @@ namespace IoT_REST_API.Controllers
             return Ok(tempsensor);
         }
 
-        // POST: api/Temperaturesensor
+        // POST: api/v1/temperaturesensor
         [HttpPost]
         public async Task<ActionResult<TemperatureSensor>> Post([FromBody] TemperatureSensor temperatureSensor)
         {
@@ -52,7 +52,7 @@ namespace IoT_REST_API.Controllers
             return Ok(temperatureSensor);
         }
 
-        // POST: api/Temperaturesensor/5/measurement
+        // POST: api/v1/temperaturesensor/{id}/measurement
         [HttpPost("{id}/measurement")]
         public async Task<IActionResult> AddMeasurement(long id, Measurement measurement)
         {
@@ -68,7 +68,21 @@ namespace IoT_REST_API.Controllers
             return Ok(measurement);
         }
 
-        //DELETE: api/Temperaturesensor/5
+        //PUT: api/v1/temperaturesensor/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TemperatureSensor>> EditTemperatureSensor(long id, [FromBody] TemperatureSensor temperatureSensor)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _dataRepository.UpdateTemperatureSensorAsync(id, temperatureSensor);
+
+            return NoContent();
+        }
+
+        //DELETE: api/v1/temperaturesensor/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTemperatureSensorAsync(long id)
         {

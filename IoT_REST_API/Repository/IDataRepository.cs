@@ -11,9 +11,10 @@ namespace IoT_REST_API.Repository
 
         Task AddTemperatureSensorAsync(TEntity entity);
 
-        Task AddMeasurementAsync(Measurement measurement);
+        Task AddMeasurementAsync(Measurement entity);
 
-        //Task Update(TEntity dbEntity, TEntity entity);
+        Task UpdateTemperatureSensorAsync(long id, TEntity entity);
+
         Task DeleteAsync(long id);
     }
 }

@@ -38,11 +38,6 @@ namespace IoT_REST_API.Models.DataManager
             {
                 _temperatureContext.TemperatureSensor.Add(entity);
             }
-            else
-            {
-                EntityEntry<TemperatureSensor> entityEntry = _temperatureContext.Entry(entity);
-                entityEntry.State = EntityState.Modified;
-            }
 
             await _temperatureContext.SaveChangesAsync();
         }
@@ -67,11 +62,25 @@ namespace IoT_REST_API.Models.DataManager
             await _temperatureContext.SaveChangesAsync();
         }
 
+        public async Task UpdateTemperatureSensorAsync(long id, TemperatureSensor entity)
+        {
+            var sensor = await _temperatureContext.TemperatureSensor.FirstOrDefaultAsync(x => x.TemperatureSensorId.Equals(id));
 
-        //public void Update(TemperatureSensor dbEntity, TemperatureSensor entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            if (sensor.TemperatureSensorId <= 0)
+            {
+                throw new KeyNotFoundException(nameof(sensor.TemperatureSensorId));
+            }
+
+            if(sensor != null)
+            {
+                _temperatureContext.Entry(sensor).State = EntityState.Detached;
+            }
+
+            _temperatureContext.TemperatureSensor.Update(entity);
+            _temperatureContext.Entry(entity).State = EntityState.Modified;
+
+            await _temperatureContext.SaveChangesAsync();
+        }
 
         public async Task DeleteAsync(long id)
         {
@@ -86,6 +95,5 @@ namespace IoT_REST_API.Models.DataManager
 
             await _temperatureContext.SaveChangesAsync();
         }
-
     }
 }
