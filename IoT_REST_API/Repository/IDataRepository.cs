@@ -6,15 +6,45 @@ namespace IoT_REST_API.Repository
 {
     public interface IDataRepository<TEntity>
     {
-        Task<IEnumerable<TEntity>> FindAllAsync();
+        /// <summary>
+        /// Generic Task to receive all data object
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetAllAsync();
+
+        /// <summary>
+        /// Generic method to receive one data object by passing a id parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<TEntity> GetAsync(long id);
 
-        Task AddTemperatureSensorAsync(TEntity entity);
+        /// <summary>
+        /// Generic method to add a data object
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task AddAsync(TEntity entity);
 
-        Task AddMeasurementAsync(Measurement entity);
+        /// <summary>
+        /// Task to add an measurement to a sensor
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task AddMeasurementAsync(Measurement measurement);
 
-        Task UpdateTemperatureSensorAsync(TEntity entity);
+        /// <summary>
+        /// Task to update a data object
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task UpdateAsync(TEntity entity);
 
+        /// <summary>
+        /// Task to delete a data object
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task DeleteAsync(long id);
     }
 }

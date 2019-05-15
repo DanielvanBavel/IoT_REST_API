@@ -9,7 +9,11 @@ namespace IoT_REST_API
         {
 
         }
+
+        //Set Db table TemperatureSensor
         public DbSet<TemperatureSensor> TemperatureSensor { get; set; }
+
+        //Set db table Measurement
         public DbSet<Measurement> Measurement { get; set; }
     }
 }

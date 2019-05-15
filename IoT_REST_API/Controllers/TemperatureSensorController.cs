@@ -21,7 +21,7 @@ namespace IoT_REST_API.Controllers
         [HttpGet]
         public async Task<IEnumerable<TemperatureSensor>> GetTemperatureSensors()
         {
-            return await _dataRepository.FindAllAsync();
+            return await _dataRepository.GetAllAsync();
         }
 
         // GET: api/v1/temperaturesensor/{id}
@@ -47,7 +47,7 @@ namespace IoT_REST_API.Controllers
                 return BadRequest("temperatureSensor is null.");
             }
 
-            await _dataRepository.AddTemperatureSensorAsync(temperatureSensor);
+            await _dataRepository.AddAsync(temperatureSensor);
 
             return Ok(temperatureSensor);
         }
@@ -79,7 +79,7 @@ namespace IoT_REST_API.Controllers
 
             temperatureSensor.TemperatureSensorId = id;
 
-            await _dataRepository.UpdateTemperatureSensorAsync(temperatureSensor);
+            await _dataRepository.UpdateAsync(temperatureSensor);
 
             return NoContent();
         }

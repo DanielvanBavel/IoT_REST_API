@@ -20,6 +20,7 @@ namespace IoT_REST_API.Models
         [Required]
         public bool IsOnline { get; set; }
 
+        //One to many relationship with Measurements
         public virtual List<Measurement> Measurements { get; set; }
     }
 }

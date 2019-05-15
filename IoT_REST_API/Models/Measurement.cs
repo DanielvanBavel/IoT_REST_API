@@ -22,6 +22,7 @@ namespace IoT_REST_API.Models
         [Required]
         public string MeasureTime { get; set; }
         
+        //All measurement belongs to only 1 Sensor object
         public virtual TemperatureSensor TemperatureSensor { get; set; }
     }
 }

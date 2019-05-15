@@ -17,7 +17,7 @@ namespace IoT_REST_API.Models.DataManager
             _temperatureContext = context;
         }
 
-        public async Task<IEnumerable<TemperatureSensor>> FindAllAsync()
+        public async Task<IEnumerable<TemperatureSensor>> GetAllAsync()
         {
             return await _temperatureContext.Set<TemperatureSensor>().ToListAsync();
         }
@@ -27,7 +27,7 @@ namespace IoT_REST_API.Models.DataManager
             return await _temperatureContext.TemperatureSensor.FirstOrDefaultAsync(e => e.TemperatureSensorId == id);
         }
 
-        public async Task AddTemperatureSensorAsync(TemperatureSensor entity)
+        public async Task AddAsync(TemperatureSensor entity)
         {
             if (entity == null)
             {
@@ -62,7 +62,7 @@ namespace IoT_REST_API.Models.DataManager
             await _temperatureContext.SaveChangesAsync();
         }
 
-        public async Task UpdateTemperatureSensorAsync(TemperatureSensor entity)
+        public async Task UpdateAsync(TemperatureSensor entity)
         {
             if (entity == null)
             {
