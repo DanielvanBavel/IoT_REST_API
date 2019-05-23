@@ -29,6 +29,8 @@ namespace IoT_REST_API.Models.DataManager
 
         public async Task AddAsync(TemperatureSensor entity)
         {
+            Queue<TemperatureSensor> sensorQueue = new Queue<TemperatureSensor>();
+
             if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
@@ -36,7 +38,16 @@ namespace IoT_REST_API.Models.DataManager
 
             if (entity.TemperatureSensorId <= 0)
             {
-                _temperatureContext.TemperatureSensor.Add(entity);
+                sensorQueue.Enqueue(entity);
+
+                if(sensorQueue.Count >= 1)
+                {
+                    _temperatureContext.TemperatureSensor.Add(sensorQueue.Dequeue());
+                }
+                else
+                {
+                    sensorQueue.Clear();
+                }
             }
 
             await _temperatureContext.SaveChangesAsync();
@@ -44,6 +55,8 @@ namespace IoT_REST_API.Models.DataManager
 
         public async Task AddMeasurementAsync(Measurement measurement)
         {
+            Queue<Measurement> measurementQueue = new Queue<Measurement>();
+
             if (measurement == null)
             {
                 throw new ArgumentNullException(nameof(measurement));
@@ -51,7 +64,16 @@ namespace IoT_REST_API.Models.DataManager
 
             if (measurement.TemperatureSensorId >= 1)
             {
-                _temperatureContext.Measurement.Add(measurement);
+                measurementQueue.Enqueue(measurement);
+
+                if (measurementQueue.Count >= 1)
+                {
+                    _temperatureContext.Measurement.Add(measurementQueue.Dequeue());
+                }
+                else
+                {
+                    measurementQueue.Clear();
+                }
             }
             else
             {
