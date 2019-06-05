@@ -1,4 +1,5 @@
-﻿using IoT_REST_API.Repository;
+﻿using IoT_REST_API.Database;
+using IoT_REST_API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -40,7 +41,7 @@ namespace IoT_REST_API.Models.DataManager
             {
                 sensorQueue.Enqueue(entity);
 
-                if(sensorQueue.Count >= 1)
+                if (sensorQueue.Count >= 1)
                 {
                     _temperatureContext.TemperatureSensor.Add(sensorQueue.Dequeue());
                 }

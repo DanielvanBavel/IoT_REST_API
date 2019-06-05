@@ -1,7 +1,7 @@
 ﻿using IoT_REST_API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace IoT_REST_API
+namespace IoT_REST_API.Database
 {
     public class Context : DbContext
     {

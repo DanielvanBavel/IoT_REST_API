@@ -1,4 +1,5 @@
-﻿using IoT_REST_API.Models;
+﻿using IoT_REST_API.Database;
+using IoT_REST_API.Models;
 using IoT_REST_API.Models.DataManager;
 using IoT_REST_API.Repository;
 using Microsoft.AspNetCore.Builder;
