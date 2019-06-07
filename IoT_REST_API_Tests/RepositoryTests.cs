@@ -5,7 +5,6 @@ using IoT_REST_API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace IoT_REST_API_Tests
@@ -63,7 +62,6 @@ namespace IoT_REST_API_Tests
             Assert.AreEqual(4, context.TemperatureSensor.Count());
         }
 
-
         [TestMethod]
         public void TestGetSensorById()
         {
@@ -93,27 +91,100 @@ namespace IoT_REST_API_Tests
         [TestMethod]
         public void TestPostNewSensor()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<Context>();
+            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            Context context = new Context(optionsBuilder.Options);
+
+            var Entity = new TemperatureSensor()
+            {
+                TemperatureSensorId = 1,
+                DeviceName = "Device-abcde",
+                DeviceModel = "Model1B",
+                IsOnline = true,
+                LocationName = "Groningen"
+            };
+
+            context.TemperatureSensor.Add(Entity);
+
+            context.SaveChangesAsync();
+
+            IDataRepository<TemperatureSensor> repository = new TemperatureSensorManager(context);
+
+            repository.AddAsync(Entity);
+
+            Assert.AreEqual(1, context.TemperatureSensor.Count());
 
         }
 
         [TestMethod]
         public void TestPostNewMeasurement()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<Context>();
+            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            Context context = new Context(optionsBuilder.Options);
 
+            context.TemperatureSensor.Add(new TemperatureSensor()
+            {
+                TemperatureSensorId = 1,
+                DeviceName = "Device-abcde",
+                DeviceModel = "Model1B",
+                IsOnline = true,
+                LocationName = "Groningen"
+            });
+
+            var EntityMeasurement = new Measurement()
+            {
+                TemperatureSensorId = 1,
+                Temperature = 35,
+                MeasureDate = "07-06-2019",
+                MeasureTime = "12:51"
+            };
+
+            context.Measurement.Add(EntityMeasurement);
+
+            context.SaveChangesAsync();
+
+            IDataRepository<TemperatureSensor> repository = new TemperatureSensorManager(context);
+
+            repository.AddMeasurementAsync(EntityMeasurement);
+
+            Assert.AreEqual(1, context.TemperatureSensor.Count());
         }
 
         [TestMethod]
         public void TestEditSensor()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<Context>();
+            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            Context context = new Context(optionsBuilder.Options);
+
+            var Entity = new TemperatureSensor()
+            {
+                TemperatureSensorId = 1,
+                DeviceName = "Device-abcde",
+                DeviceModel = "Model1B",
+                IsOnline = true,
+                LocationName = "Groningen"
+            };
+
+            context.TemperatureSensor.Add(Entity);
+
+            context.SaveChangesAsync();
+
+            Entity.DeviceName = "Device-12345";
+            Entity.LocationName = "Amsterdam";
+
+            context.TemperatureSensor.Update(Entity);
+
+            IDataRepository<TemperatureSensor> repository = new TemperatureSensorManager(context);
+
+            repository.UpdateAsync(Entity);
+
+            Assert.AreEqual(Entity.DeviceName, "Device-12345");
         }
 
         [TestMethod]
-        public void TestEditMeasurement()
-        {
-        }
-
-        [TestMethod]
-        public async void TestDeleteSensor()
+        public void TestDeleteSensor()
         {
             var optionsBuilder = new DbContextOptionsBuilder<Context>();
             optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
@@ -130,7 +201,7 @@ namespace IoT_REST_API_Tests
 
             IDataRepository<TemperatureSensor> repository = new TemperatureSensorManager(context);
 
-            await repository.DeleteAsync(3);
+            repository.DeleteAsync(3);
 
             Assert.AreEqual(0, context.TemperatureSensor.Count());
         }
